@@ -113,7 +113,7 @@ public final class SingleAsPublisher<T> implements Publisher<T> {
                     int s = state.get();
                     if (s == HAS_REQUEST_HAS_VALUE || s == HAS_REQUEST_NO_VALUE || cancelled) {
                         break;
-                    } else
+                    }
                     if (s == NO_REQUEST_HAS_VALUE) {
                         if (state.compareAndSet(s, HAS_REQUEST_HAS_VALUE)) {
                             T v = value;
@@ -124,6 +124,9 @@ public final class SingleAsPublisher<T> implements Publisher<T> {
                                 actual.onComplete();
                             }
                         }
+                        break;
+                    }
+                    if (state.compareAndSet(NO_REQUEST_NO_VALUE, HAS_REQUEST_NO_VALUE)) {
                         break;
                     }
                 }
